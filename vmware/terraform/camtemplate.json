@@ -1,5 +1,5 @@
 {
-    "name": "IBM Cloud Private Single Node Installation",
+    "name": "ICP Single Node Installation with Istio option",
     "description": "This template will deploy a single Node instance of IBM Cloud Private",
     "version": "1.0",
     "imageUrl": "",
@@ -23,7 +23,7 @@
       }
     },
     "metadata": {
-      "displayName": "Single Node Deployment of IBM Cloud Private",
+      "displayName": "ICP Single Node Installation with Istio option",
       "providerDisplayName": "VMware vSphere",
       "longDescription": "This template will deploy a single Node instance of IBM Cloud Private",
       "bullets": [{
@@ -59,4 +59,3 @@
       "git": "https://github.com/ibmcam/cam-toolchain"
     }
 }
-
