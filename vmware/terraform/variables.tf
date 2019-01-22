@@ -23,6 +23,7 @@ variable "singlenode_vm_os_user" {
 
 variable "singlenode_vm_os_password" {
   type = "string"
+  default = "Passw0rd="
 }
 
 variable "singlenode_vm_ipv4_gateway" {
@@ -31,6 +32,7 @@ variable "singlenode_vm_ipv4_gateway" {
 
 variable "singlenode_vm_ipv4_prefix_length" {
   type = "string"
+  default = "26"
 }
 
 variable "singlenode_vm_disk1_size" {
@@ -40,6 +42,7 @@ variable "singlenode_vm_disk1_size" {
 
 variable "singlenode_vm_disk1_datastore" {
   type = "string"
+  default = "EnduranceFRA01"
 }
 
 variable "singlenode_vm_disk1_keep_on_remove" {
@@ -59,7 +62,7 @@ variable "singlenode_vm_disk2_size" {
 
 variable "singlenode_vm_disk2_datastore" {
   type    = "string"
-  default = ""
+  default = "EnduranceFRA01"
 }
 
 variable "singlenode_vm_disk2_keep_on_remove" {
@@ -69,10 +72,12 @@ variable "singlenode_vm_disk2_keep_on_remove" {
 
 variable "vm_domain" {
   type = "string"
+  default = "coc.net"
 }
 
 variable "vm_network_interface_label" {
   type = "string"
+  default = "SDDC-DPG-Mgmt"
 }
 
 variable "vm_adapter_type" {
@@ -82,6 +87,7 @@ variable "vm_adapter_type" {
 
 variable "vm_folder" {
   type = "string"
+  default = "camlab"
 }
 
 variable "vm_dns_servers" {
@@ -99,10 +105,12 @@ variable "vm_clone_timeout" {
 
 variable "vsphere_datacenter" {
   type = "string"
+  default = "datacenter1"
 }
 
 variable "vsphere_resource_pool" {
   type = "string"
+  default = "resourcepool1"
 }
 
 # SSH KEY Information
