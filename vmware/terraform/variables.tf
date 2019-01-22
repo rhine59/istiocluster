@@ -159,6 +159,11 @@ variable "enable_monitoring" {
   default = "true"
 }
 
+variable "enable_istio" {
+  type    = "string"
+  default = "true"
+}
+
 variable "icp_cluster_name" {
   type = "string"
 }

@@ -75,14 +75,14 @@ module "deployVM_singlenode" {
   vm_clone_timeout        = "${var.vm_clone_timeout}"
   random                     = "${random_string.random-dir.result}"
   enable_vm                  = "${var.enable_single_node}"
-  
+
   #######
   bastion_host        = "${var.bastion_host}"
   bastion_user        = "${var.bastion_user}"
   bastion_private_key = "${var.bastion_private_key}"
   bastion_port        = "${var.bastion_port}"
   bastion_host_key    = "${var.bastion_host_key}"
-  bastion_password    = "${var.bastion_password}"  
+  bastion_password    = "${var.bastion_password}"
 }
 
 module "add_ilmt_file" {
@@ -99,7 +99,7 @@ module "add_ilmt_file" {
   bastion_port        = "${var.bastion_port}"
   bastion_host_key    = "${var.bastion_host_key}"
   bastion_password    = "${var.bastion_password}"
-  #######    
+  #######
   dependsOn            = "${module.deployVM_singlenode.dependsOn}"
 }
 
@@ -117,7 +117,7 @@ module "push_hostfile" {
   bastion_port        = "${var.bastion_port}"
   bastion_host_key    = "${var.bastion_host_key}"
   bastion_password    = "${var.bastion_password}"
-  #######    
+  #######
   random               = "${random_string.random-dir.result}"
   dependsOn            = "${module.deployVM_singlenode.dependsOn}"
 }
@@ -150,8 +150,8 @@ module "icp_prereqs" {
   bastion_private_key = "${var.bastion_private_key}"
   bastion_port        = "${var.bastion_port}"
   bastion_host_key    = "${var.bastion_host_key}"
-  bastion_password    = "${var.bastion_password}"  
-  #######  
+  bastion_password    = "${var.bastion_password}"
+  #######
   random               = "${random_string.random-dir.result}"
   dependsOn            = "${module.deployVM_singlenode.dependsOn}"
 }
@@ -175,14 +175,14 @@ module "icp_download_load" {
   bastion_private_key = "${var.bastion_private_key}"
   bastion_port        = "${var.bastion_port}"
   bastion_host_key    = "${var.bastion_host_key}"
-  bastion_password    = "${var.bastion_password}"  
-  #######    
+  bastion_password    = "${var.bastion_password}"
+  #######
   random                 = "${random_string.random-dir.result}"
   dependsOn              = "[${module.deployVM_singlenode.dependsOn}, ${module.icp_prereqs.dependsOn}]"
 }
 
 module "icp_config_yaml" {
-  source                 = "git::https://github.com/IBM-CAMHub-Open/template_icp_modules.git?ref=2.3//config_icp_boot_standalone"
+  source                 = "./modules/config_icp_boot_standalone"
 
   private_key            = "${length(var.icp_private_ssh_key) == 0 ? "${tls_private_key.generate.private_key_pem}" : "${base64decode(var.icp_private_ssh_key)}"}"
   vm_os_password         = "${var.singlenode_vm_os_password}"
@@ -191,6 +191,7 @@ module "icp_config_yaml" {
   enable_kibana          = "${lower(var.enable_kibana)}"
   enable_metering        = "${lower(var.enable_metering)}"
   enable_monitoring      = "${lower(var.enable_monitoring)}"
+  enable_istio           = "${lower(var.enable_istio)}"
   icp_version            = "${var.icp_version}"
   kub_version            = "${var.kub_version}"
   vm_domain              = "${var.vm_domain}"
@@ -205,8 +206,8 @@ module "icp_config_yaml" {
   bastion_private_key = "${var.bastion_private_key}"
   bastion_port        = "${var.bastion_port}"
   bastion_host_key    = "${var.bastion_host_key}"
-  bastion_password    = "${var.bastion_password}"  
-  #######    
+  bastion_password    = "${var.bastion_password}"
+  #######
   random                 = "${random_string.random-dir.result}"
   dependsOn              = "[${module.icp_download_load.dependsOn}, ${module.icp_prereqs.dependsOn}]"
 }

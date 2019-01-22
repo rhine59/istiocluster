@@ -4,7 +4,7 @@
       "name": "bastionhost",
       "label": "Bastion Data"
     }
-  ],    
+  ],
   "output_datatypes": [
     {
       "name": "com.ibm.cloud.cloudconnections.ICP",
@@ -26,12 +26,12 @@
         ]
       }
     }
-  ],  
+  ],
   "input_groups": [
     {
       "name": "bastion",
       "label": "Bastion host variables"
-    },      
+    },
     {
       "name": "cloud",
       "label": "Cloud Input Variables"
@@ -106,7 +106,7 @@
       "label": "Bastion private key",
       "secured": true,
       "required": false
-    },  
+    },
     {
       "name": "bastion_password",
       "type": "string",
@@ -128,7 +128,7 @@
       "label": "Bastion host key",
       "secured": false,
       "required": false
-    },        
+    },
     {
       "name": "download_user",
       "description": "Username to access a secure repository location",
@@ -209,7 +209,30 @@
 				}
 			],
 			"group_name": "icpsingle"
-    },  
+    },
+    {
+      "name": "enable_istio",
+      "description": "Enable / Disable Istio in IBM Cloud Private Installation",
+      "default": "true",
+      "type": "string",
+      "required": true,
+      "secured": false,
+      "label": "Enable Istio",
+			"hidden": false,
+			"immutable": false,
+			"options": [{
+					"value": "true",
+					"label": "true",
+					"default": true
+				},
+				{
+					"value": "false",
+					"label": "false"
+
+				}
+			],
+			"group_name": "icpsingle"
+    },
     {
       "name": "icp_binary_url",
       "description": "Location of the IBM Cloud Private Binaries used by IBM Cloud Private",
