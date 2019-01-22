@@ -4,6 +4,8 @@ Copyright IBM Corp. 2018, 2018
 
 # IBM Cloud Private Installer
 
+Updated 22 Jan 2019 to add option to install Istio - Richard Hine
+
 The IBM Cloud Private Single Node Deployment Terraform template and inline modules will provision several virtual machine, install prerequisites and install the IBM Cloud Private product within you vmWare Hypervisor enviroment.
 
 This template will install and configure the IBM Cloud Private in an Single Node topology.
