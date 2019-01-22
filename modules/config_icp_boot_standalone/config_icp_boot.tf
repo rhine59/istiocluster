@@ -20,7 +20,7 @@ resource "null_resource" "setup_installer" {
     bastion_private_key = "${ length(var.bastion_private_key) > 0 ? base64decode(var.bastion_private_key) : var.bastion_private_key}"
     bastion_port        = "${var.bastion_port}"
     bastion_host_key    = "${var.bastion_host_key}"
-    bastion_password    = "${var.bastion_password}"        
+    bastion_password    = "${var.bastion_password}"
   }
 
   provisioner "remote-exec" {
@@ -49,6 +49,14 @@ resource "null_resource" "setup_installer" {
       "if [ \"${var.enable_metering}\" = \"false\" ]; then sed -i '/management_services/a\\ \\ metering: disabled' ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml; fi",
       "if [ \"${var.enable_monitoring}\" = \"false\" ]; then sed -i '/management_services/a\\ \\ monitoring: disabled' ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml; fi",
       "echo \"metering_enabled: ${var.enable_metering}\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"istio: enabled\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"istio_addon:\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"  grafana:\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"    username: admin\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"    passphrase: admin\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"  kiali:\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"    username: admin\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
+      "echo \"    passphrase: admin\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
       "sed -i 's/# cluster_name.*/cluster_name: ${var.icp_cluster_name}/g' ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
       "sed -i 's/# cluster_CA_domain.*/cluster_CA_domain: ${var.icp_cluster_name}.${var.vm_domain}/g' ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
       "sed -i 's/default_admin_user.*/default_admin_user: ${var.icp_admin_user}/g' ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
@@ -85,7 +93,7 @@ resource "null_resource" "setup_installer_tar" {
     bastion_private_key = "${ length(var.bastion_private_key) > 0 ? base64decode(var.bastion_private_key) : var.bastion_private_key}"
     bastion_port        = "${var.bastion_port}"
     bastion_host_key    = "${var.bastion_host_key}"
-    bastion_password    = "${var.bastion_password}"        
+    bastion_password    = "${var.bastion_password}"
   }
 
   provisioner "file" {
@@ -112,9 +120,9 @@ resource "null_resource" "setup_installer_tar" {
 	    "bash -c '~/ibm-cloud-private-x86_64-${var.icp_version}/set_ansible_user.sh ${var.vm_os_user} ${var.icp_version}'",
       "sudo cp ~/.ssh/id_rsa ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/ssh_key",
       "cd  ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster",
-      "export DOCKER_REPO=`sudo docker images |grep inception |grep ${var.icp_version} |awk '{print $1}'`", 
+      "export DOCKER_REPO=`sudo docker images |grep inception |grep ${var.icp_version} |awk '{print $1}'`",
       "bash -c 'sudo docker run --net=host -t -e LICENSE=accept  -v $(pwd):/installer/cluster $DOCKER_REPO:${var.icp_version}-ee install | sudo tee -a ~/cfc-install.log; test $${PIPESTATUS[0]} -eq 0'",
-	  "sudo chown ${var.vm_os_user} -R ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster",        
+	  "sudo chown ${var.vm_os_user} -R ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster",
     ]
 
     # "echo \"      ${var.gluster_volumetype}\" >> ~/ibm-cloud-private-x86_64-${var.icp_version}/cluster/config.yaml",
